@@ -60,15 +60,22 @@ router.get('/', async (req, res) => {
 });
 
 // Get a single book
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).json({ message: 'Book not found' });
+    const book = await Book.findById(req.params.id)
+      .populate({
+        path: "reviews",
+        populate: { path: "userId", select: "name" }, // Populate user details from User model
+      });
+
+    if (!book) return res.status(404).json({ message: "Book not found" });
+
     res.status(200).json(book);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
 
 // Update a book
 router.put('/:id', verifyTokenAndAdmin, async (req, res) => {

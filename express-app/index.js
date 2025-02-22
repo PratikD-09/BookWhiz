@@ -6,6 +6,8 @@ const userRoutes =require('./Routes/user')
 const bookRoutes =require('./Routes/book')
 const cartRoutes =require('./Routes/cart')
 const orderRoutes =require('./Routes/order')
+const reviewRoutes =require('./Routes/review')
+
 const cors = require("cors"); // Import CORS
 
 
@@ -34,6 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/order', orderRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 
 

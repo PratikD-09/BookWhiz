@@ -37,7 +37,7 @@ router.post("/", verifyToken, async (req, res) => {
 router.get("/:bookId", async (req, res) => {
   try {
     const reviews = await Review.find({ bookId: req.params.bookId })
-      .populate("userId", "name") // Populate user name
+      .populate("userId", "username") // Populate user name
       .sort({ createdAt: -1 }); // Sort by latest reviews
 
     res.status(200).json(reviews);

@@ -29,7 +29,6 @@ export default function FeaturedBooks() {
     const fetchBooks = async () => {
       try {
         const res = await axios.get<Book[]>("http://localhost:5000/api/books/");
-        console.log("API Response:", res.data); // Log to confirm data structure
         setBooks(res.data);
       } catch (error) {
         console.error("Error fetching books:", error);

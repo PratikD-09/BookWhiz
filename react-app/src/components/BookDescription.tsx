@@ -1,8 +1,9 @@
 import  { useState ,useEffect } from 'react';
-import { Star, ShoppingCart, ChevronLeft, Check } from 'lucide-react';
+import { Star, ShoppingCart, ChevronLeft } from 'lucide-react';
 // import type { Book, Review } from '../types/index';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import ReviewSection from './ReviewSection';
 interface Book {
   _id: string; // MongoDB ID
   title: string;
@@ -129,50 +130,7 @@ export default function BookDescription() {
           </div>
         </div>
       </div>
-
-      {/* Reviews section
-      <div className="mt-16">
-        <h2 className="text-2xl font-bold mb-8">Customer Reviews</h2>
-        <div className="space-y-8">
-          {mockReviews.map((review) => (
-            <div key={review.id} className="border-b border-gray-200 pb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="flex items-center">
-                    <span className="font-semibold text-gray-800 mr-2">
-                      {review.userName}
-                    </span>
-                    {review.verified && (
-                      <span className="flex items-center text-sm text-green-600">
-                        <Check className="h-4 w-4 mr-1" />
-                        Verified Purchase
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-4 w-4 ${
-                          i < review.rating
-                            ? 'text-yellow-400 fill-current'
-                            : 'text-gray-300'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <span className="text-sm text-gray-500">
-                  {new Date(review.date).toLocaleDateString()}
-                </span>
-              </div>
-              <p className="text-gray-600">{review.comment}</p>
-            </div>
-          ))}
-        </div>
-      </div> */}
-
-
+      <ReviewSection bookId={book?._id} />
 
       
     </div>

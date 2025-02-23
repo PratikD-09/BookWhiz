@@ -59,6 +59,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/books/:id" element={<SingleBook/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/signin" element={<SignIn/>}/>
         {/* <Route path="/contact" element={<Contact />} /> */}
         {/* <Route path="*" element={<NotFound />} /> Catch-all route for 404 */}
       </Routes>

@@ -66,20 +66,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} /> ?
         <Route path="/books/:id" element={<SingleBook/>}/>
-        {/* <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/signin" element={<SignIn/>}/> */}
-         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
-         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
-         <Route path="/sellerDash" element={user ? <Navigate to="/" /> : <SellerDashboard />} />
-         <Route path="/UserProfile" element={user ? <Navigate to="/" /> : <UserProfile />} />
+         <Route path="/signin" element={user.user ? <Navigate to="/" /> : <SignIn />} />
+         <Route path="/signup" element={user.user ? <Navigate to="/" /> : <SignUp />} />
+         <Route path="/sellerDash" element={user.user ? <SellerDashboard /> : <Navigate to="/signin" />} />
+         <Route path="/profile" element={user.user ? <UserProfile /> : <Navigate to="/signin" />} />
 
-
-        {/* <Route path="/signin">{user ? <Navigate to="/" /> :  <SignIn />}</Route>
-        <Route path="/signup">
-          {user ? <Navigate    to="/" /> : <SignUp />}
-        </Route> */}
-        {/* <Route path="/contact" element={<Contact />} /> */}
-        {/* <Route path="*" element={<NotFound />} /> Catch-all route for 404 */}
       </Routes>
       <Footer/>
     </Router>

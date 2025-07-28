@@ -1,9 +1,9 @@
 import  { useState ,useEffect } from 'react';
 import { Star, ShoppingCart, ChevronLeft, ShoppingBag } from 'lucide-react';
-// import type { Book, Review } from '../types/index';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ReviewSection from './ReviewSection';
+import { useSelector } from 'react-redux';
 interface Book {
   _id: string; // MongoDB ID
   title: string;
@@ -25,15 +25,13 @@ interface Book {
 export default function BookDescription() {
   const location = useLocation()
   const id=location.pathname.split("/")[2];
-  // const [book , setBook] = useState({})
   const [book, setBook] = useState<Book | null>(null);
+  const user = useSelector((state: { user: { currentUser: any } }) => state.user.currentUser);
 
   useEffect(() => {
     const getBook = async()=>{
         try {
-          //  const res = await axios.get(`http://localhost:5000/api/books/${id}`)
           const res = await axios.get<Book>(`http://localhost:5000/api/books/${id}`);
-
            setBook(res.data)
         } catch (error) {
           console.error(error);
@@ -41,6 +39,38 @@ export default function BookDescription() {
     }
     getBook()
   }, [id])
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      alert('Please login to add items to cart');
+      return;
+    }
+
+    if (!book) return;
+
+    try {
+      const token = user.token;
+      const userId = user.user._id;
+      
+      await axios.post(
+        `http://localhost:5000/api/cart/${userId}/add`,
+        {
+          bookId: book._id,
+          quantity: 1
+        },
+        {
+          headers: {
+            token: `Bearer ${token}`
+          }
+        }
+      );
+      
+      alert('Book added to cart successfully!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add book to cart');
+    }
+  };
   
   
   return (
@@ -94,17 +124,15 @@ export default function BookDescription() {
             <div className="flex items-center justify-between">
               <span className="text-3xl font-bold text-indigo-600">{book?.price}</span>
               <button
-                // onClick={() => onAddToCart(book)}
+                onClick={handleAddToCart}
                 className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
                 <ShoppingCart className="h-5 w-5 mr-1" />
                     Add to Cart
               </button>
               <button
-                // onClick={() => onAddToCart(book)}
                 className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
-                {/* <ShoppingCart className="h-5 w-5 mr-2" /> */} 
                 <ShoppingBag className="h-5 w-5 mr-1" />
                 Buy
               </button>

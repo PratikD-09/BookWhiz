@@ -1,42 +1,25 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
-import {login} from '../redux/loginApiCall'
+import { login } from '../redux/loginApiCall';
 import { useDispatch, useSelector } from 'react-redux';
-
-
+import { Link } from 'react-router-dom';
 
 interface UserState {
   isFetching: boolean;
-  err: boolean | null;
+  error: boolean;
 }
 
 export default function SignIn() {
   const [isSellerLogin, setIsSellerLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isFetching, err } = useSelector((state: { user: UserState }) => state.user);
-  // const [error, setError] = useState(err);
+  const { isFetching, error } = useSelector((state: { user: UserState }) => state.user);
 
-  
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login( dispatch ,{ email , password})
-    // setError('');
-    // try {
-    //   const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-    //   localStorage.setItem('token', response.data.token);
-    //   alert('Login Successful');
-    //   window.location.href = '/';
-    // } catch (err: unknown) {
-    //   if (axios.isAxiosError(err)) {
-    //     setError(err.response?.data?.message || 'Login failed');
-    //   } else {
-    //     setError('An unexpected error occurred');
-    //   }
-    // }
+    login(dispatch, { email, password });
   };
 
   return (
@@ -53,7 +36,7 @@ export default function SignIn() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          {err ? <p className="text-red-500 text-sm">Something went wrong !</p> : <p></p>}
+          {error && <p className="text-red-500 text-sm mb-4">Something went wrong! Please try again.</p>}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
@@ -86,7 +69,14 @@ export default function SignIn() {
             </div>
 
             <div>
-              <button type="submit" className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sign in <ArrowRight className="ml-2 h-4 w-4" /></button>
+              <button 
+                type="submit" 
+                disabled={isFetching}
+                className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              >
+                {isFetching ? 'Signing in...' : 'Sign in'} 
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </button>
             </div>
           </form>
 
@@ -100,7 +90,7 @@ export default function SignIn() {
               </div>
             </div>
             <div className="mt-6">
-              <a href="/signup" className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create new account</a>
+              <Link to="/signup" className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create new account</Link>
             </div>
           </div>
         </div>

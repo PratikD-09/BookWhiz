@@ -1,11 +1,7 @@
 import { ShoppingCart, Star } from 'lucide-react';
-// import type { Book } from '../types';
-
-// interface BookCardProps {
-//   book: Book;
-//   onAddToCart: (book: Book) => void;
-//   onBookClick: (book: Book) => void;
-// }
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 interface Book {
   _id: string;
   title: string;
@@ -28,10 +24,45 @@ interface BookCardProps {
 }
 
 export default function BookCard({book} : BookCardProps) {
+  const user = useSelector((state: { user: { currentUser: any } }) => state.user.currentUser);
+  const navigate = useNavigate();
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (!user) {
+      alert('Please login to add items to cart');
+      navigate('/signin');
+      return;
+    }
+
+    try {
+      const token = user.token;
+      const userId = user.user._id;
+      
+      await axios.post(
+        `http://localhost:5000/api/cart/${userId}/add`,
+        {
+          bookId: book._id,
+          quantity: 1
+        },
+        {
+          headers: {
+            token: `Bearer ${token}`
+          }
+        }
+      );
+      
+      alert('Book added to cart successfully!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add book to cart');
+    }
+  };
+
   return (
     <div
       className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 cursor-pointer"
-      // onClick={() => onBookClick(book)}
     >
       <img
         src={book.coverImage}
@@ -48,10 +79,7 @@ export default function BookCard({book} : BookCardProps) {
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-indigo-600">₹{book.price}</span>
           <button
-            // onClick={(e) => {
-            //   e.stopPropagation();
-            //   onAddToCart(book);
-            // }}
+            onClick={handleAddToCart}
             className="flex items-center px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
           >
             <ShoppingCart className="h-4 w-4 mr-1" />

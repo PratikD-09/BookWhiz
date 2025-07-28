@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
-import axios from 'axios';
+import {login} from '../redux/loginApiCall'
+import { useDispatch, useSelector } from 'react-redux';
+
+
+
+interface UserState {
+  isFetching: boolean;
+  err: boolean | null;
+}
 
 export default function SignIn() {
   const [isSellerLogin, setIsSellerLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const { isFetching, err } = useSelector((state: { user: UserState }) => state.user);
+  // const [error, setError] = useState(err);
+
+  
+
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      alert('Login Successful');
-      window.location.href = '/';
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || 'Login failed');
-      } else {
-        setError('An unexpected error occurred');
-      }
-    }
+    login( dispatch ,{ email , password})
+    // setError('');
+    // try {
+    //   const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+    //   localStorage.setItem('token', response.data.token);
+    //   alert('Login Successful');
+    //   window.location.href = '/';
+    // } catch (err: unknown) {
+    //   if (axios.isAxiosError(err)) {
+    //     setError(err.response?.data?.message || 'Login failed');
+    //   } else {
+    //     setError('An unexpected error occurred');
+    //   }
+    // }
   };
 
   return (
@@ -39,7 +53,7 @@ export default function SignIn() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {err ? <p className="text-red-500 text-sm">Something went wrong !</p> : <p></p>}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>

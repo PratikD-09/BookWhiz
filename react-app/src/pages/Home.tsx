@@ -9,7 +9,7 @@ function Home() {
         <Navbar/>
         <Hero/>
         <FeaturedBooks/>
-        <Footer/>
+
     </div>
   )
 }

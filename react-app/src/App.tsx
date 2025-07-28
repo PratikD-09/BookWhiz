@@ -12,6 +12,7 @@ import SellerDashboard from './pages/SellerDashboard';
 import type { Book, CartItem } from './types';
 import Home  from './pages/Home';
 import SingleBook from './pages/SingleBook';
+import { useSelector } from 'react-redux';
 
 // Mock data for initial development
 const mockBooks: Book[] = [
@@ -52,15 +53,31 @@ function App() {
   const handleBookClick = (book: Book) => {
     setSelectedBook(book);
   };
+  interface User{
+    user : string | null ;
+  }
+
+  const user = useSelector((state: { currentUser: User }) => state.currentUser);
 
   return (
+    
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} /> ?
         <Route path="/books/:id" element={<SingleBook/>}/>
-        <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/signin" element={<SignIn/>}/>
+        {/* <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/signin" element={<SignIn/>}/> */}
+         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
+         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
+         <Route path="/sellerDash" element={user ? <Navigate to="/" /> : <SellerDashboard />} />
+         <Route path="/UserProfile" element={user ? <Navigate to="/" /> : <UserProfile />} />
+
+
+        {/* <Route path="/signin">{user ? <Navigate to="/" /> :  <SignIn />}</Route>
+        <Route path="/signup">
+          {user ? <Navigate    to="/" /> : <SignUp />}
+        </Route> */}
         {/* <Route path="/contact" element={<Contact />} /> */}
         {/* <Route path="*" element={<NotFound />} /> Catch-all route for 404 */}
       </Routes>

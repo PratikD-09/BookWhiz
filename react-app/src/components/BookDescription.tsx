@@ -1,5 +1,5 @@
 import  { useState ,useEffect } from 'react';
-import { Star, ShoppingCart, ChevronLeft } from 'lucide-react';
+import { Star, ShoppingCart, ChevronLeft, ShoppingBag } from 'lucide-react';
 // import type { Book, Review } from '../types/index';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -97,8 +97,16 @@ export default function BookDescription() {
                 // onClick={() => onAddToCart(book)}
                 className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
-                <ShoppingCart className="h-5 w-5 mr-2" />
-                Add to Cart
+                <ShoppingCart className="h-5 w-5 mr-1" />
+                    Add to Cart
+              </button>
+              <button
+                // onClick={() => onAddToCart(book)}
+                className="flex items-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+              >
+                {/* <ShoppingCart className="h-5 w-5 mr-2" /> */} 
+                <ShoppingBag className="h-5 w-5 mr-1" />
+                Buy
               </button>
             </div>
           </div>

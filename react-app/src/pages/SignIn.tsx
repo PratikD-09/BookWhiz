@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { login } from '../redux/loginApiCall';
 import { useDispatch, useSelector } from 'react-redux';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-=======
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {RootState} from '../redux/store';
+import { Link } from 'react-router-dom';
 
 
 
 
->>>>>>> 78271a5 (login and logout working)
 
 interface UserState {
   isFetching: boolean;
@@ -24,15 +21,9 @@ export default function SignIn() {
   const [isSellerLogin, setIsSellerLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-<<<<<<< HEAD
   const { isFetching, error } = useSelector((state: { user: UserState }) => state.user);
-
-  const dispatch = useDispatch();
-=======
-  const { isFetching, err } = useSelector((state: { user: UserState }) => state.user);
   
 
->>>>>>> 78271a5 (login and logout working)
 
 const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
@@ -43,9 +34,6 @@ const currentUser = useSelector((state: RootState) => state.user.currentUser);
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-<<<<<<< HEAD
-    login(dispatch, { email, password });
-=======
     try {
       await login( dispatch ,{ email , password})
       if(currentUser){
@@ -54,7 +42,6 @@ const currentUser = useSelector((state: RootState) => state.user.currentUser);
     } catch (err: unknown) {
       
     }
->>>>>>> 78271a5 (login and logout working)
   };
   
 

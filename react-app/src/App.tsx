@@ -66,21 +66,6 @@ const user = useSelector((state: RootState) => state.user.currentUser);
     {/* Redirect to SignIn if not logged in */}
     <Route path="/" element={user ? <Home /> : <Navigate to="/signin" replace />} />
     
-<<<<<<< HEAD
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} /> ?
-        <Route path="/books/:id" element={<SingleBook/>}/>
-         <Route path="/signin" element={user.user ? <Navigate to="/" /> : <SignIn />} />
-         <Route path="/signup" element={user.user ? <Navigate to="/" /> : <SignUp />} />
-         <Route path="/sellerDash" element={user.user ? <SellerDashboard /> : <Navigate to="/signin" />} />
-         <Route path="/profile" element={user.user ? <UserProfile /> : <Navigate to="/signin" />} />
-
-      </Routes>
-      <Footer/>
-    </Router>
-=======
     <Route path="/books/:id" element={<SingleBook />} />
 
     {/* Auth Routes */}
@@ -93,7 +78,6 @@ const user = useSelector((state: RootState) => state.user.currentUser);
   </Routes>
   <Footer />
 </Router>
->>>>>>> 78271a5 (login and logout working)
   );
 }
 export default App;

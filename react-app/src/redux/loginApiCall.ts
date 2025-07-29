@@ -19,7 +19,6 @@ export const login = async (dispatch: AppDispatch, user: UserCredentials) => {
       withCredentials: true, // if using JWT cookies
     });
     dispatch(loginSuccess(res.data));
-    alert("Login Successful");
     
   } catch (err) {
     console.error("Login failed:", err);

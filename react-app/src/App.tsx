@@ -14,21 +14,8 @@ import Home  from './pages/Home';
 import SingleBook from './pages/SingleBook';
 import { useSelector } from 'react-redux';
 import {RootState} from './redux/store';
-// Mock data for initial development
-const mockBooks: Book[] = [
-  {
-    id: '1',
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    price: 899,
-    description: 'The Great Gatsby is a 1925 novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway\'s interactions with mysterious millionaire Jay Gatsby and Gatsby\'s obsession to reunite with his former lover, Daisy Buchanan.',
-    coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
-    genre: 'Classic',
-    rating: 4.5,
-    publishedDate: '1925-04-10',
-  },
-  // ... other mock books
-];
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -58,6 +45,18 @@ function App() {
   }
 
 const user = useSelector((state: RootState) => state.user.currentUser);
+
+
+useEffect(() => {
+  const fetchBooks = async()=>{
+  try {
+    let res = await axios.get("/api/books");
+  } catch (error) {
+    
+  }
+}
+}, [])
+
 
   return (
    <Router>

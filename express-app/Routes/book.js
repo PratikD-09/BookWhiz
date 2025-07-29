@@ -4,43 +4,40 @@ const Book = require('../Models/Book');
 const { verifyToken, verifyTokenAndAutherization, verifyTokenAndAdmin } = require('./verifyToken');
 
 // Create a new book
-router.post('/', verifyTokenAndAdmin, async (req, res) => {
+router.post('/', verifyTokenAndAdmin , async (req, res) => {
   try {
-    const {
+    let {
       title,
-      author,
-      description,
-      price,
-      category,
-      stock,
-      coverImage,
-      rating,
-      reviews,
-      publisher,
-      publicationDate,
-      ISBN,
+    author,
+    price,
+    description,
+    genre,
+    publishedDate,
+    isbn,
+    language,
+    pages,
     } = req.body;
 
     // Check if a book with the same ISBN already exists
-    const existingBook = await Book.findOne({ ISBN });
+    const existingBook = await Book.findOne({isbn});
+
     if (existingBook) {
       return res.status(400).json({ message: 'A book with this ISBN already exists' });
+      
     }
 
     const newBook = new Book({
-      title,
-      author,
-      description,
-      price,
-      category,
-      stock,
-      coverImage,
-      rating,
-      reviews,
-      publisher,
-      publicationDate,
-      ISBN,
+    title,
+    author,
+    price,
+    description,
+    genre,
+    publishedDate,
+    isbn,
+    language,
+    pages,
     });
+
 
     await newBook.save();
     res.status(201).json({ message: 'Book created successfully', book: newBook });

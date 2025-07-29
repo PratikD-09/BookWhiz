@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { login } from '../redux/loginApiCall';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {RootState} from '../redux/store';
 import { Link } from 'react-router-dom';

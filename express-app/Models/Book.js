@@ -13,7 +13,7 @@ const bookSchema = new mongoose.Schema({
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   publisher: { type: String },
   publicationDate: { type: Date },
-  ISBN: { type: String, unique: true },
+  isbn: { type: String, unique: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Book', bookSchema);

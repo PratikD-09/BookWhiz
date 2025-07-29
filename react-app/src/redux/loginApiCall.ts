@@ -15,7 +15,7 @@ interface UserCredentials {
 export const login = async (dispatch: AppDispatch, user: UserCredentials) => {
   dispatch(loginStart());
   try {
-    const res = await axios.post("http://localhost:5000/api/users/login", user, {
+    const res = await axios.post("http://localhost:5000/api/users/login",  user, {
       withCredentials: true, // if using JWT cookies
     });
     dispatch(loginSuccess(res.data));
@@ -28,6 +28,8 @@ export const login = async (dispatch: AppDispatch, user: UserCredentials) => {
   try {
     const res = await axios.post('http://localhost:5000/api/users/login', user);
     dispatch(loginSuccess(res.data));
+    let t = res.data.token;
+    localStorage.setItem("token", t)
     alert('Login Successful');
     window.location.href = '/';
   } catch (err: unknown) {

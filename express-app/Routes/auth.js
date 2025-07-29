@@ -75,8 +75,8 @@ router.post('/login', [
     }
 
     const token = jwt.sign({ userId: user._id, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(200).json({ message: 'Logged in successfully', token });
+    // localStorage.setItem({token : token});
+    return res.status(200).json({ message: 'Logged in successfully', token : token });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

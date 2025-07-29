@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Package, DollarSign, Users, BookOpen, Upload } from 'lucide-react';
 import type { Book } from '../types';
+import axios from 'axios';
 
 // Mock data for development
 const mockBooks: Book[] = [
@@ -19,6 +20,7 @@ const mockBooks: Book[] = [
 ];
 
 export default function SellerDashboard() {
+  const token = localStorage.getItem("token"); // or wherever you're storing it
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [newBook, setNewBook] = useState({
     title: '',
@@ -32,8 +34,24 @@ export default function SellerDashboard() {
     pages: '',
   });
 
-  const handleAddBook = (e: React.FormEvent) => {
+
+  const handleAddBook = async(e: React.FormEvent) => {
+    console.log(newBook);
     e.preventDefault();
+    try {
+       await axios.post('http://localhost:5000/api/books/', newBook,
+         {
+        headers: {
+            token: `Bearer ${token}`
+        }
+
+  }
+      );
+      alert("Book Is Added !")
+    } catch (error) {
+      console.log(error);
+      alert("Try Again")
+    }
     // Handle book addition
     setShowAddBookModal(false);
   };

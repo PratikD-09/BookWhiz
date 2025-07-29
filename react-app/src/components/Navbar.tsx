@@ -1,14 +1,12 @@
-import React from 'react';
+
 import { ShoppingCart, Search, User, BookOpenCheck, Sparkles } from 'lucide-react';
 import { RootState } from '../redux/store';
-import { useDispatch, useSelector, UseSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {logout} from '../redux/userRedux';
 import { AppDispatch } from "../redux/store";
 import { useNavigate } from 'react-router-dom';
-import { UseDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-
+import { LogOut } from 'lucide-react';
 
 
 export default function Navbar() {
@@ -57,7 +55,7 @@ const handleLogout = () => {
             {
               currentUser ? 
                <button onClick={handleLogout} className="text-gray-600 hover:text-gray-900">
-              LOGOUT
+                <LogOut></LogOut>
               </button>
             :
               <p></p>

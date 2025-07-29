@@ -1,19 +1,33 @@
 import React from 'react';
-import { ShoppingCart, Search, User, BookOpenCheck, Sparkles, LogOut } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/userRedux';
+import { ShoppingCart, Search, User, BookOpenCheck, Sparkles } from 'lucide-react';
+import { RootState } from '../redux/store';
+import { useDispatch, useSelector, UseSelector } from 'react-redux';
+import {logout} from '../redux/userRedux';
+import { AppDispatch } from "../redux/store";
+import { useNavigate } from 'react-router-dom';
+import { UseDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+
+
 
 export default function Navbar() {
-  const user = useSelector((state: { user: { currentUser: any } }) => state.user.currentUser);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>(); // ✅ use dispatch
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
+  const navigate = useNavigate();
+  
+const handleLogout = () => {
+    try {
+      dispatch(logout());
+      alert("Logout Successfully");
+      navigate('/signIn');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
   return (
     <nav className="bg-white shadow-lg fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,22 +54,18 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700">Welcome, {user.user?.username || 'User'}</span>
-                <Link to="/profile" className="text-gray-600 hover:text-gray-900">
-                  <User className="h-6 w-6" />
-                </Link>
-                <button onClick={handleLogout} className="text-gray-600 hover:text-gray-900">
-                  <LogOut className="h-6 w-6" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Link to="/signin" className="text-sm text-gray-700 hover:text-gray-900">Sign In</Link>
-                <Link to="/signup" className="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700">Sign Up</Link>
-              </div>
-            )}
+            {
+              currentUser ? 
+               <button onClick={handleLogout} className="text-gray-600 hover:text-gray-900">
+              LOGOUT
+              </button>
+            :
+              <p></p>
+            }
+            <button className="text-gray-600 hover:text-gray-900">
+              <User className="h-6 w-6" />
+              </button>
+            
             <button className="text-gray-600 hover:text-gray-900 relative">
               <ShoppingCart className="h-6 w-6" />
               <span className="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

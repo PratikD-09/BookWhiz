@@ -2,25 +2,62 @@ import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { login } from '../redux/loginApiCall';
 import { useDispatch, useSelector } from 'react-redux';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import {RootState} from '../redux/store';
+
+
+
+
+>>>>>>> 78271a5 (login and logout working)
 
 interface UserState {
   isFetching: boolean;
   error: boolean;
 }
 
+
 export default function SignIn() {
   const [isSellerLogin, setIsSellerLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+<<<<<<< HEAD
   const { isFetching, error } = useSelector((state: { user: UserState }) => state.user);
 
   const dispatch = useDispatch();
+=======
+  const { isFetching, err } = useSelector((state: { user: UserState }) => state.user);
+  
 
+>>>>>>> 78271a5 (login and logout working)
+
+const currentUser = useSelector((state: RootState) => state.user.currentUser);
+
+  
+  const navigate = useNavigate();
+  
+  const dispatch = useDispatch()
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     login(dispatch, { email, password });
+=======
+    try {
+      await login( dispatch ,{ email , password})
+      if(currentUser){
+        navigate('/');
+      }
+    } catch (err: unknown) {
+      
+    }
+>>>>>>> 78271a5 (login and logout working)
   };
+  
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

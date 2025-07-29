@@ -13,7 +13,7 @@ import type { Book, CartItem } from './types';
 import Home  from './pages/Home';
 import SingleBook from './pages/SingleBook';
 import { useSelector } from 'react-redux';
-
+import {RootState} from './redux/store';
 // Mock data for initial development
 const mockBooks: Book[] = [
   {
@@ -57,10 +57,16 @@ function App() {
     user : string | null ;
   }
 
-  const user = useSelector((state: { currentUser: User }) => state.currentUser);
+const user = useSelector((state: RootState) => state.user.currentUser);
 
   return (
+   <Router>
+  <Navbar />
+  <Routes>
+    {/* Redirect to SignIn if not logged in */}
+    <Route path="/" element={user ? <Home /> : <Navigate to="/signin" replace />} />
     
+<<<<<<< HEAD
     <Router>
       <Navbar />
       <Routes>
@@ -74,6 +80,20 @@ function App() {
       </Routes>
       <Footer/>
     </Router>
+=======
+    <Route path="/books/:id" element={<SingleBook />} />
+
+    {/* Auth Routes */}
+    <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
+    <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
+
+    {/* Protected Routes */}
+    <Route path="/sellerDash" element={user ? <SellerDashboard /> : <Navigate to="/signin" />} />
+    <Route path="/userProfile" element={user ? <UserProfile /> : <Navigate to="/signin" />} />
+  </Routes>
+  <Footer />
+</Router>
+>>>>>>> 78271a5 (login and logout working)
   );
 }
 export default App;

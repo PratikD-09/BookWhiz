@@ -1,3 +1,4 @@
+// userRedux.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
@@ -6,9 +7,9 @@ interface UserState {
   error: boolean;
 }
 
-const initialState: UserState = {
-  currentUser: null,
+let initialState: UserState = {
   isFetching: false,
+  currentUser: null ,
   error: false,
 };
 
@@ -18,18 +19,21 @@ const userSlice = createSlice({
   reducers: {
     loginStart: (state) => {
       state.isFetching = true;
+      state.error = false;
     },
     loginSuccess: (state, action: PayloadAction<any>) => {
       state.isFetching = false;
       state.currentUser = action.payload;
       state.error = false;
     },
-    loginFailure: (state) => { // Fixed Typo
+    loginFailure: (state) => {
       state.isFetching = false;
       state.error = true;
     },
     logout: (state) => {
-      state.currentUser = null; // Ensure logout clears persisted state
+      state.currentUser = null;
+      state.isFetching = false;
+      state.error = false;
     },
   },
 });

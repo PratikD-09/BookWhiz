@@ -1,31 +1,33 @@
+// store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userRedux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Uses localStorage as the default storage
+import storage from "redux-persist/lib/storage"; // defaults to localStorage
+import { combineReducers } from "redux";
 
-// Persist configuration
-const persistConfig = {
-  key: "user",  // Persist only user slice
-  storage,
-  whitelist: ["currentUser"], // Only persist currentUser
-};
-
-// Wrap userReducer with persistReducer
-const persistedUserReducer = persistReducer(persistConfig, userReducer);
+// Combine reducers if needed
+const rootReducer = combineReducers({
+  user: persistReducer(
+    {
+      key: "user",
+      storage,
+      whitelist: ["currentUser"], // only persist currentUser
+    },
+    userReducer
+  ),
+});
 
 export const store = configureStore({
-  reducer: {
-    user: persistedUserReducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Required for redux-persist
+      serializableCheck: false, // required for redux-persist
     }),
 });
 
-// Persistor
 export const persistor = persistStore(store);
 
-// Define types for use in dispatch and selectors
+// Types
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

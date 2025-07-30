@@ -16,8 +16,35 @@ import { useSelector } from 'react-redux';
 import {RootState} from './redux/store';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { User } from 'lucide-react';
+
+
+
+
+
+export interface User {
+  _id: string;              // MongoDB document ID
+  username: string;
+  email: string;       // optional if excluded from JWT or frontend
+  address?: string;
+  isAdmin: boolean;
+  phone?: string;
+  createdAt?: string;       // from timestamps: true
+  updatedAt?: string;
+}
+
 
 function App() {
+
+  const token = localStorage.getItem("token"); // or wherever you're storing it
+
+  let decodedUser =null;
+  if(token){
+    decodedUser = jwtDecode<User>(token);
+  }
+
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,9 +67,6 @@ function App() {
   const handleBookClick = (book: Book) => {
     setSelectedBook(book);
   };
-  interface User{
-    user : string | null ;
-  }
 
 const user = useSelector((state: RootState) => state.user.currentUser);
 
@@ -72,7 +96,7 @@ useEffect(() => {
     <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUp />} />
 
     {/* Protected Routes */}
-    <Route path="/sellerDash" element={user ? <SellerDashboard /> : <Navigate to="/signin" />} />
+    <Route path="/sellerDash" element={ decodedUser?.isAdmin ? <SellerDashboard /> : <Navigate to="/signin" />} />
     <Route path="/userProfile" element={user ? <UserProfile /> : <Navigate to="/signin" />} />
   </Routes>
   <Footer />

@@ -7,10 +7,21 @@ import { AppDispatch } from "../redux/store";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
+import { LayoutDashboardIcon } from 'lucide-react';
+import { jwtDecode } from 'jwt-decode';
+
+interface User{
+  isAdmin : boolean
+}
 
 
 export default function Navbar() {
     const dispatch = useDispatch<AppDispatch>(); // ✅ use dispatch
+    const token = localStorage.getItem("token");
+    let userDecoded = null;
+    if(token){
+      userDecoded = jwtDecode<User>(token);
+    }
 
   const navigate = useNavigate();
   
@@ -23,6 +34,14 @@ const handleLogout = () => {
       console.log(error);
     }
   };
+
+  const handleTOdash = () =>{
+    try {
+      navigate('/sellerDash')
+    } catch (error) {
+      console.log(error);  
+    }
+  }
 
 
   const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -60,8 +79,11 @@ const handleLogout = () => {
             :
               <p></p>
             }
+            {
+              
+            }
             <button className="text-gray-600 hover:text-gray-900">
-              <User className="h-6 w-6" />
+              <a href="/userProfile"><User className="h-6 w-6" /></a>
               </button>
             
             <button className="text-gray-600 hover:text-gray-900 relative">
@@ -70,6 +92,15 @@ const handleLogout = () => {
                 0
               </span>
             </button>
+
+             {
+              userDecoded?.isAdmin ? 
+               <button onClick={handleTOdash} className="text-gray-600 hover:text-gray-900">
+                <LayoutDashboardIcon></LayoutDashboardIcon>
+              </button>
+            :
+              <p></p>
+            }
           </div>
         </div>
       </div>

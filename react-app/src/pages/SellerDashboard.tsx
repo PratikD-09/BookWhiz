@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Plus, Package, DollarSign, Users, BookOpen, Upload } from 'lucide-react';
 import type { Book } from '../types';
 import axios from 'axios';
+import { RootState } from '../redux/store';
+import { useSelector } from 'react-redux';
+import { jwtDecode } from 'jwt-decode'; // ✅ Correct way with Vite
 
 // Mock data for development
 const mockBooks: Book[] = [
@@ -19,8 +22,12 @@ const mockBooks: Book[] = [
   // Add more mock books as needed
 ];
 
+
 export default function SellerDashboard() {
+
   const token = localStorage.getItem("token"); // or wherever you're storing it
+
+  const [books , setBooks] = useState([]);
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [newBook, setNewBook] = useState({
     title: '',
@@ -36,7 +43,6 @@ export default function SellerDashboard() {
 
 
   const handleAddBook = async(e: React.FormEvent) => {
-    console.log(newBook);
     e.preventDefault();
     try {
        await axios.post('http://localhost:5000/api/books/', newBook,
@@ -57,8 +63,11 @@ export default function SellerDashboard() {
   };
 
   return (
+    
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+
         {/* Dashboard Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Seller Dashboard</h1>
